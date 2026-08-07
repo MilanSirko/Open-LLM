@@ -11,7 +11,7 @@ One single, OpenAI-compatible API endpoint giving you access to 100+ free models
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docker Image](https://img.shields.io/badge/ghcr.io-open--llm-blue?logo=docker)](https://ghcr.io/milansirko/open-llm)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/MilanSirko/open-llm)
-
+[![Website](https://img.shields.io/badge/Website-Live-brightgreen?logo=vercel)](https://open-llm-ochre.vercel.app)
 </div>
 
 ---
