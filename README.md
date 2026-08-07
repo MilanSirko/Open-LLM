@@ -44,12 +44,12 @@ It's fully open source, self-hostable in a single Docker container, and built so
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://your-openllm-instance.com/v1",
+    base_url="https://open-llm-2fgm.onrender.com/v1",
     api_key="YOUR_OPENLLM_API_KEY"
 )
 
 response = client.chat.completions.create(
-    model="auto",
+    model="openllm/auto",
     messages=[{"role": "user", "content": "Explain quantum computing simply."}]
 )
 
