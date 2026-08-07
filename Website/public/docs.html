@@ -114,11 +114,11 @@
               </div>
 <pre><code data-lang="python"># Using the OpenAI-compatible client (library accepts an api_key)
 from openai import OpenAI
-client = OpenAI(base_url="https://openllm-api.com/v1", api_key="YOUR_API_KEY")
+client = OpenAI(base_url="https://open-llm-2fgm.onrender.com/v1", api_key="YOUR_API_KEY")
 
 # Or, using plain requests: include your key in the `apikey` header
 import requests
-resp = requests.get("https://openllm-api.com/v1/serverinfo", headers={"apikey": "YOUR_API_KEY"})
+resp = requests.get("https://open-llm-2fgm.onrender.com/v1/serverinfo", headers={"apikey": "YOUR_API_KEY"})
 print(resp.json())</code></pre>
             </div>
           </section>
@@ -342,7 +342,7 @@ print(response.model)  # e.g. "gemini-pro"</code></pre>
                 </div>
 <pre><code data-lang="python">import requests
 
-url = "https://openllm-api.com/v1/chat/completions"
+url = "https://open-llm-2fgm.onrender.com/v1"
 headers = {"Content-Type": "application/json", "apikey": "YOUR_API_KEY"}
 body = {
     "massage": "Write a short introduction to artificial intelligence in English.",
@@ -363,7 +363,7 @@ print(resp.json())</code></pre>
               <p class="mt-2 text-sm text-muted">Returns the list of supported model names and slugs. Simple GET request; no apikey required.</p>
               <div class="code-shell mt-3" id="codeModels">
                 <pre><code data-lang="python">import requests
-resp = requests.get("https://openllm-api.com/v1/models")
+resp = requests.get("https://open-llm-2fgm.onrender.com/v1/models")
 print(resp.json())</code></pre>
               </div>
             </div>
@@ -374,7 +374,7 @@ print(resp.json())</code></pre>
               <p class="mt-2 text-sm text-muted">Returns details for a single model: <code class="text-accent font-mono">name, slug, provider, tier, kind</code>. Replace {name} with the model slug or name.</p>
               <div class="code-shell mt-3" id="codeModelInfo">
                 <pre><code data-lang="python">import requests
-resp = requests.get("https://openllm-api.com/v1/model/gemini-pro")
+resp = requests.get("https://open-llm-2fgm.onrender.com/v1model/gemini-pro")
 print(resp.json())</code></pre>
               </div>
             </div>
@@ -386,7 +386,7 @@ print(resp.json())</code></pre>
               <div class="code-shell mt-3" id="codeUsage">
                 <pre><code data-lang="python">import requests
 headers = {"apikey": "YOUR_API_KEY"}
-resp = requests.get("https://openllm-api.com/v1/usage", headers=headers)
+resp = requests.get("https://open-llm-2fgm.onrender.com/v1/usage", headers=headers)
 print(resp.json())</code></pre>
               </div>
             </div>
@@ -397,7 +397,7 @@ print(resp.json())</code></pre>
               <p class="mt-2 text-sm text-muted">Returns general server info: status, version, uptime, model count, and available provider count.</p>
               <div class="code-shell mt-3" id="codeServerInfo">
                 <pre><code data-lang="python">import requests
-resp = requests.get("https://openllm-api.com/v1/serverinfo")
+resp = requests.get("https://open-llm-2fgm.onrender.com/v1/serverinfo")
 print(resp.json())</code></pre>
               </div>
             </div>
@@ -409,7 +409,7 @@ print(resp.json())</code></pre>
               <div class="code-shell mt-3" id="codeKeys">
                 <pre><code data-lang="python">import requests
 headers = {"apikey": "YOUR_API_KEY"}
-resp = requests.get("https://openllm-api.com/v1/keys", headers=headers)
+resp = requests.get("https://open-llm-2fgm.onrender.com/v1/keys", headers=headers)
 print(resp.json())</code></pre>
               </div>
             </div>
@@ -420,7 +420,7 @@ print(resp.json())</code></pre>
               <p class="mt-2 text-sm text-muted">Save your own provider specific key (for example HuggingFace or Groq). The body expects two fields: <code class="text-accent font-mono">provider</code> and <code class="text-accent font-mono">provider_key</code>. The <code class="text-accent font-mono">apikey</code> header is required.</p>
               <div class="code-shell mt-3" id="codeProviderKey">
                 <pre><code data-lang="python">import requests
-url = "https://openllm-api.com/v1/keys/provider"
+url = "https://open-llm-2fgm.onrender.com/v1/keys/provider"
 headers = {"Content-Type": "application/json", "apikey": "YOUR_API_KEY"}
 body = {"provider": "huggingface", "provider_key": "hf_xxx..."}
 resp = requests.post(url, json=body, headers=headers)
