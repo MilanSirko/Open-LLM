@@ -6,7 +6,7 @@ from openai import AsyncOpenAI
 from dotenv import load_dotenv
 from datetime import datetime,timezone
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Union, List
 from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, Header, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -42,7 +42,7 @@ with open('models.yaml', 'r', encoding='UTF-8') as f:
     config=yaml.safe_load(f)['models']
 
 class Userrequest(BaseModel):
-    massage: str=Field(..., min_length=1, max_length=5000)
+    messages: Union[List[dict], str]=Field(...)
     model: str
 
 class Modelinfo(BaseModel):
@@ -83,9 +83,20 @@ async def generate_key(request: Request, email: str | None = None):
     create_api_key(newkey, email)
     return {'API key': newkey}
 
-async def verify(apikey: str = Header(...)):
-    if not verify_key(apikey):
+async def verify(
+    apikey: Optional[str]=Header(None),
+    authorization: Optional[str]=Header(None)
+) -> str:
+    token=apikey
+    if not token and authorization:
+        if authorization.startswith("Bearer "):
+            token=authorization.split(" ", 1)[1]
+        else:
+            token=authorization
+
+    if not token or not verify_key(token):
         raise HTTPException(status_code=401, detail='Invalid or inactive API key')
+    return token
 
 async def modelverify(model: str):
     available=[m['slug'] for m in config]
@@ -118,9 +129,13 @@ async def call_with_optional_user_key(provider: str, model: str, messages: list[
         return await CALL_FUNCTIONS[provider](model, messages, **kwargs)
  
 @app.post('/v1/chat/completions')
+@app.post('/chat/completions')
 @limiter.limit('20/minute')
-async def chat(request: Request, payload: Userrequest, _=Depends(verify), apikey: str = Header(...)):
-    messages = [{'role': 'user', 'content': payload.massage}]
+async def chat(request: Request, payload: Userrequest, apikey: str = Depends(verify)):
+    if isinstance(payload.messages, str):
+        messages = [{'role': 'user', 'content': payload.messages}]
+    else:
+        messages=payload.messages
 
     if payload.model == 'openrouter/auto':
         openroutermodels = [m['name'] for m in config if m['provider'] == 'openrouter']
@@ -130,7 +145,7 @@ async def chat(request: Request, payload: Userrequest, _=Depends(verify), apikey
             max_tokens=2000)
 
     elif payload.model == 'openllm/auto':
-        chosenslug = await pick_model(payload.massage)
+        chosenslug= await pick_model(messages)
         modelname = await modelverify(chosenslug)
         result = await call_with_optional_user_key(modelname['provider'], modelname['realname'], messages, apikey, max_tokens=2000)
 
@@ -139,14 +154,15 @@ async def chat(request: Request, payload: Userrequest, _=Depends(verify), apikey
             modelname = await modelverify(payload.model)
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
-        result = await call_with_optional_user_key(modelname['provider'], modelname['realname'], messages, apikey, max_tokens=2000)
+        result=await call_with_optional_user_key(modelname['provider'], modelname['realname'], messages, apikey, max_tokens=2000)
 
-        if isinstance(result, dict):
-            usage=result.get("usage") or {}
-            tokens_used=usage.get("total_tokens", 0)
+    tokens_used = 0
+    if isinstance(result, dict):
+        usage = result.get("usage") or {}
+        tokens_used = usage.get("total_tokens", 0)
 
-        if tokens_used > 0:
-            add_token_usage(apikey, tokens_used)
+    if tokens_used > 0:
+        add_token_usage(apikey, tokens_used)
 
     return result
 
