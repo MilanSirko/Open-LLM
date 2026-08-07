@@ -1,0 +1,98 @@
+[
+  {
+    "name": "llama-3.3-70b-versatile",
+    "slug": "groq-fast",
+    "provider": "groq",
+    "tier": "free",
+    "kind": "chat",
+    "description": "Fast, general-purpose model for everyday tasks."
+  },
+  {
+    "name": "llama-3.1-8b-instant",
+    "slug": "groq-instant",
+    "provider": "groq",
+    "tier": "free",
+    "kind": "chat",
+    "description": "Ultra-low-latency model for high-volume, simple prompts."
+  },
+  {
+    "name": "mixtral-8x7b",
+    "slug": "groq-mixtral",
+    "provider": "groq",
+    "tier": "free",
+    "kind": "chat",
+    "description": "Mixture-of-experts model with strong reasoning at speed."
+  },
+  {
+    "name": "gemini-2.0-flash",
+    "slug": "gemini-flash",
+    "provider": "google",
+    "tier": "free",
+    "kind": "chat",
+    "description": "Balanced multimodal model tuned for quick responses."
+  },
+  {
+    "name": "gemini-2.0-flash-vision",
+    "slug": "gemini-vision",
+    "provider": "google",
+    "tier": "free",
+    "kind": "vision",
+    "description": "Understands images and text together for visual reasoning."
+  },
+  {
+    "name": "gemini-2.5-pro",
+    "slug": "gemini-pro",
+    "provider": "google",
+    "tier": "paid",
+    "kind": "chat",
+    "description": "Flagship model for complex, long-context reasoning."
+  },
+  {
+    "name": "gemini-2.5-pro-vision",
+    "slug": "gemini-pro-vision",
+    "provider": "google",
+    "tier": "paid",
+    "kind": "vision",
+    "description": "High-accuracy image and document understanding."
+  },
+  {
+    "name": "anthropic/claude-sonnet-4",
+    "slug": "or-claude-sonnet",
+    "provider": "openrouter",
+    "tier": "paid",
+    "kind": "chat",
+    "description": "Premium model with excellent writing and coding ability."
+  },
+  {
+    "name": "meta-llama/llama-4-maverick",
+    "slug": "or-llama4",
+    "provider": "openrouter",
+    "tier": "free",
+    "kind": "chat",
+    "description": "Open-weight frontier model routed through OpenRouter."
+  },
+  {
+    "name": "qwen/qwen-2.5-coder-32b",
+    "slug": "or-qwen-coder",
+    "provider": "openrouter",
+    "tier": "free",
+    "kind": "code",
+    "description": "Specialised for code generation and refactoring."
+  },
+  {
+    "name": "mistralai/mistral-large",
+    "slug": "or-mistral-large",
+    "provider": "openrouter",
+    "tier": "paid",
+    "kind": "chat",
+    "description": "Strong multilingual reasoning with a large context window."
+  },
+  {
+    "name": "auto",
+    "slug": "auto",
+    "provider": "openrouter",
+    "tier": "free",
+    "kind": "router",
+    "description": "Let the routing agent choose the best model per request."
+  }
+]

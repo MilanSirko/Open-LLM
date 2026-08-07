@@ -1,0 +1,23 @@
+.git
+.gitignore
+.github/
+.env
+.env.*
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+node_modules/
+Website/node_modules/
+Repo assests/
+*.png
+*.jpg
+*.svg
+!Website/public/assets/**
+!Website/public/*.png
+!Website/public/*.svg
+Dockerfile
+.dockerignore
+.vscode/
+.idea/
+.DS_Store

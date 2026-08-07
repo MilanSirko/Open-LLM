@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-[#07080a]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docs — Open LLM</title>
+    <meta name="description" content="Open LLM quickstart: authenticate, make your first request, browse models and use smart auto-routing." />
+    <meta name="theme-color" content="#07080a" />
+
+    <link rel="icon" type="image/png" href="/icon.png">
+    <link rel="apple-touch-icon" href="/apple-icon.png">
+
+    <meta property="og:title" content="OpenLLM - API Portal">
+    <meta property="og:description" content="Generate and manage your OpenLLM API keys securely.">
+    <meta property="og:image" content="https://a-te-vercel-domain-neved.vercel.app/opengraph-image.png">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { bg: "#07080a", panel: "#111318", accent: "#d4ff33", muted: "#8b929c" },
+            fontFamily: {
+              sans: ['"Space Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
+              mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+            },
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+
+  <body class="min-h-screen antialiased">
+    <div class="bg-canvas" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header data-nav class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
+      <nav class="mx-auto max-w-7xl px-5 h-16 flex items-center justify-between">
+        <a href="/index.html" class="flex items-center gap-2 group">
+          <img src="/mainapplogo.png" alt="" class="h-8 w-8 rounded-lg object-cover transition-transform group-hover:rotate-6" aria-hidden="true" />
+          <span class="text-lg font-semibold tracking-tight">Open<span class="text-accent">LLM</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="/index.html" class="nav-link">Home</a>
+          <a href="/models.html" class="nav-link">Models</a>
+          <a href="/docs.html" class="nav-link active">Docs</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="https://github.com/YOUR_USERNAME/open-llm" target="_blank" rel="noopener" aria-label="Open LLM on GitHub" class="hidden sm:grid place-items-center h-9 w-9 rounded-lg border border-[#22252c] text-muted hover:text-white hover:border-accent transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          </a>
+          <a href="/get-api-key.html" class="btn-accent hidden sm:inline-flex items-center rounded-lg px-4 py-2 text-sm">Get API Key</a>
+          <button data-menu-btn class="md:hidden grid place-items-center h-9 w-9 rounded-lg border border-[#22252c] text-muted" aria-label="Toggle menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </nav>
+      <div data-mobile-menu class="hidden md:hidden border-t border-[#191c22] bg-[#0b0d11] px-5 py-4 space-y-3 text-sm">
+        <a href="/index.html" class="block text-muted">Home</a>
+        <a href="/models.html" class="block text-muted">Models</a>
+        <a href="/docs.html" class="block text-white">Docs</a>
+        <a href="/get-api-key.html" class="block text-accent font-medium">Get API Key →</a>
+      </div>
+    </header>
+
+    <main class="pt-16">
+      <div class="mx-auto max-w-7xl px-5 pt-14 pb-28 grid lg:grid-cols-[220px_1fr] gap-10">
+        <!-- Sidebar -->
+        <aside class="hidden lg:block">
+          <div class="sticky top-24 space-y-1 text-sm">
+            <p class="text-xs uppercase tracking-[0.2em] text-muted mb-3">Quickstart</p>
+            <a href="#authentication" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Authentication</a>
+            <a href="#request" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Making a request</a>
+            <a href="#request-format" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Request format</a>
+            <a href="#response-format" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Response format</a>
+            <a href="#models" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Available models</a>
+            <a href="#providers" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Available providers</a>
+            <a href="#routing" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Auto-routing</a>
+            <a href="#rate-limits" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Rate limits</a>
+            <a href="#errors" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Error handling</a>
+            <a href="#endpoints" class="doc-link block rounded-lg px-3 py-2 text-muted hover:text-white hover:bg-white/[0.03] transition-colors">Endpoints</a>
+          </div>
+        </aside>
+
+        <!-- Content -->
+        <div class="min-w-0 max-w-3xl">
+          <div class="reveal">
+            <span class="text-xs uppercase tracking-[0.25em] text-accent">Documentation</span>
+            <h1 class="mt-3 text-4xl md:text-5xl font-bold tracking-tight text-balance">Quickstart</h1>
+            <p class="mt-4 text-muted leading-relaxed text-pretty">Open LLM exposes an OpenAI-compatible endpoint at <code class="text-accent font-mono text-sm">https://openllm-api.com/v1</code>. If you can call OpenAI, you can call Open LLM.</p>
+          </div>
+
+          <!-- Authentication -->
+          <section id="authentication" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Authentication</h2>
+            <p class="mt-3 text-muted leading-relaxed">Every request should include your API key in the <code class="text-accent font-mono text-sm">apikey</code> HTTP header. Generate one on the <a href="/get-api-key.html" class="text-accent hover:underline">Get API Key</a> page, where you can also configure provider-specific keys that optionally override the server's default provider access.</p>
+
+            <div class="code-shell mt-5" id="codeAuth">
+              <div class="code-bar">
+                <span class="dot" style="background:#ff5f57"></span>
+                <span class="dot" style="background:#febc2e"></span>
+                <span class="dot" style="background:#28c840"></span>
+                <span class="ml-3 text-xs text-muted font-mono">auth.py</span>
+                <button data-copy="#codeAuth code" class="copy-btn ml-auto inline-flex items-center gap-1.5 rounded-md border border-[#22252c] px-2.5 py-1 text-xs text-muted">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span data-copy-label>Copy</span>
+                </button>
+              </div>
+<pre><code data-lang="python"># Using the OpenAI-compatible client (library accepts an api_key)
+from openai import OpenAI
+client = OpenAI(base_url="https://openllm-api.com/v1", api_key="YOUR_API_KEY")
+
+# Or, using plain requests: include your key in the `apikey` header
+import requests
+resp = requests.get("https://openllm-api.com/v1/serverinfo", headers={"apikey": "YOUR_API_KEY"})
+print(resp.json())</code></pre>
+            </div>
+          </section>
+
+          <!-- Making a request -->
+          <section id="request" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Making a request</h2>
+            <p class="mt-3 text-muted leading-relaxed">Send a chat completion just like you would with OpenAI. Set <code class="text-accent font-mono text-sm">model</code> to any slug from the <a href="/models.html" class="text-accent hover:underline">Models</a> page.</p>
+
+            <div class="code-shell mt-5" id="codeRequest">
+              <div class="code-bar">
+                <span class="dot" style="background:#ff5f57"></span>
+                <span class="dot" style="background:#febc2e"></span>
+                <span class="dot" style="background:#28c840"></span>
+                <span class="ml-3 text-xs text-muted font-mono">request.py</span>
+                <button data-copy="#codeRequest code" class="copy-btn ml-auto inline-flex items-center gap-1.5 rounded-md border border-[#22252c] px-2.5 py-1 text-xs text-muted">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span data-copy-label>Copy</span>
+                </button>
+              </div>
+<pre><code data-lang="python">response = client.chat.completions.create(
+    model="model name",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain routing in one sentence."}
+    ]
+)
+
+print(response.choices[0].message.content)</code></pre>
+            </div>
+          </section>
+
+          <!-- Request format -->
+          <section id="request-format" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Request format</h2>
+            <p class="mt-3 text-muted leading-relaxed">A chat completion accepts a <code class="text-accent font-mono text-sm">model</code> slug and an ordered array of <code class="text-accent font-mono text-sm">messages</code>. Optional fields like <code class="text-accent font-mono text-sm">max_tokens</code> let you cap the response length.</p>
+
+            <div class="code-shell mt-5" id="codeReqFormat">
+              <div class="code-bar">
+                <span class="dot" style="background:#ff5f57"></span>
+                <span class="dot" style="background:#febc2e"></span>
+                <span class="dot" style="background:#28c840"></span>
+                <span class="ml-3 text-xs text-muted font-mono">request_format.py</span>
+                <button data-copy="#codeReqFormat code" class="copy-btn ml-auto inline-flex items-center gap-1.5 rounded-md border border-[#22252c] px-2.5 py-1 text-xs text-muted">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span data-copy-label>Copy</span>
+                </button>
+              </div>
+<pre><code data-lang="python">response = client.chat.completions.create(
+    model="model name",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain quantum computing simply."}
+    ],
+    max_tokens=500
+)</code></pre>
+            </div>
+
+            <ul class="mt-5 space-y-2 text-sm text-muted">
+              <li><code class="text-accent font-mono">model</code> — the slug of the model to route to, or <code class="text-accent font-mono">"auto"</code>.</li>
+              <li><code class="text-accent font-mono">messages</code> — ordered chat turns with a <code class="font-mono">role</code> (<code class="font-mono">system</code> / <code class="font-mono">user</code> / <code class="font-mono">assistant</code>) and <code class="font-mono">content</code>.</li>
+              <li><code class="text-accent font-mono">max_tokens</code> — optional cap on the number of tokens generated.</li>
+            </ul>
+          </section>
+
+          <!-- Response format -->
+          <section id="response-format" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Response format</h2>
+            <p class="mt-3 text-muted leading-relaxed">Responses match OpenAI's standard chat completion shape. The generated text lives at <code class="text-accent font-mono text-sm">choices[0].message.content</code>, and token accounting is returned under <code class="text-accent font-mono text-sm">usage</code>.</p>
+
+            <div class="code-shell mt-5" id="codeResFormat">
+              <div class="code-bar">
+                <span class="dot" style="background:#ff5f57"></span>
+                <span class="dot" style="background:#febc2e"></span>
+                <span class="dot" style="background:#28c840"></span>
+                <span class="ml-3 text-xs text-muted font-mono">response.json</span>
+                <button data-copy="#codeResFormat code" class="copy-btn ml-auto inline-flex items-center gap-1.5 rounded-md border border-[#22252c] px-2.5 py-1 text-xs text-muted">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span data-copy-label>Copy</span>
+                </button>
+              </div>
+<pre><code data-lang="json">{
+  "id": "chatcmpl-abc123",
+  "model": "groq...",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Quantum computing uses qubits that can be 0 and 1 at once..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 24,
+    "completion_tokens": 118,
+    "total_tokens": 142
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <!-- Available models -->
+          <section id="models" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Available models</h2>
+            <p class="mt-3 text-muted leading-relaxed">Open LLM currently routes across three providers — Groq, Google Gemini and OpenRouter — spanning chat, vision and code models on free and paid tiers. Browse the full, always-up-to-date catalogue and copy any slug on the Models page.</p>
+            <a href="/models.html" class="btn-ghost mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm">
+              Browse all models
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </section>
+
+          <!-- Available providers -->
+          <section id="providers" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Available providers</h2>
+            <p class="mt-3 text-muted leading-relaxed">The server currently supports the following providers: <span class="text-white">Groq</span>, <span class="text-white">OpenRouter</span>, <span class="text-white">Google</span>, <span class="text-white">HuggingFace</span>, <span class="text-white">Opencode (Zen)</span>, <span class="text-white">Cerebras</span>, and <span class="text-white">NVIDIA</span>. Browse the full model list on the <a href="/models.html" class="text-accent hover:underline">Models</a> page.</p>
+            <div class="mt-5 flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-2 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-2 text-sm"><img src="/assets/providers/groq.png" alt="Groq logo" class="h-6 w-6 rounded-md object-contain" aria-hidden="true" />Groq</span>
+              <span class="inline-flex items-center gap-2 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-2 text-sm"><img src="/assets/providers/openrouter.png" alt="OpenRouter logo" class="h-6 w-6 rounded-md object-contain" aria-hidden="true" />OpenRouter</span>
+              <span class="inline-flex items-center gap-2 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-2 text-sm"><img src="/assets/providers/google.png" alt="Google logo" class="h-6 w-6 rounded-md object-contain" aria-hidden="true" />Google</span>
+              <span class="inline-flex items-center gap-2 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-2 text-sm"><img src="/assets/providers/huggingface.png" alt="HuggingFace logo" class="h-6 w-6 rounded-md object-contain" aria-hidden="true" />HuggingFace</span>
+              <span class="inline-flex items-center gap-2 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-2 text-sm"><img src="/assets/providers/opencode-removebg-preview.png" alt="Opencode Zen logo" class="h-6 w-6 rounded-md object-contain" aria-hidden="true" />Opencode (Zen)</span>
+              <span class="inline-flex items-center gap-2 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-2 text-sm"><img src="/assets/providers/cerebras.png" alt="Cerebras logo" class="h-6 w-6 rounded-md object-contain" aria-hidden="true" />Cerebras</span>
+              <span class="inline-flex items-center gap-2 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-2 text-sm"><img src="/assets/providers/nvidia.png" alt="NVIDIA logo" class="h-6 w-6 rounded-md object-contain" aria-hidden="true" />NVIDIA</span>
+            </div>
+            <p class="mt-4 text-sm text-muted">Note: You can add your own provider-specific key on the <a href="/get-api-key.html" class="text-accent hover:underline">Get API Key</a> page using the <code class="text-accent font-mono">POST /keys/provider</code> endpoint. When set, that provider's requests will use your key.</p>
+          </section>
+
+          <!-- Auto-routing -->
+          <section id="routing" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Smart auto-routing</h2>
+            <p class="mt-3 text-muted leading-relaxed">Not sure which model to pick? Set <code class="text-accent font-mono text-sm">model="auto"</code> and a lightweight AI agent evaluates each request — its length, complexity and intent — then picks the most suitable available model automatically, optimising for latency, cost and capability. It's ideal when you don't want to hand-select a model per request, and it applies automatic fallback if the chosen provider is unavailable.</p>
+
+            <div class="code-shell mt-5" id="codeRouting">
+              <div class="code-bar">
+                <span class="dot" style="background:#ff5f57"></span>
+                <span class="dot" style="background:#febc2e"></span>
+                <span class="dot" style="background:#28c840"></span>
+                <span class="ml-3 text-xs text-muted font-mono">auto_route.py</span>
+                <button data-copy="#codeRouting code" class="copy-btn ml-auto inline-flex items-center gap-1.5 rounded-md border border-[#22252c] px-2.5 py-1 text-xs text-muted">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span data-copy-label>Copy</span>
+                </button>
+              </div>
+<pre><code data-lang="python"># Let Open LLM choose the best model for you
+response = client.chat.completions.create(
+    model="openllm/auto",
+    messages=[{"role": "user", "content": "Summarise this contract."}]
+)
+
+# The chosen model is returned in the response metadata
+print(response.model)  # e.g. "gemini-pro"</code></pre>
+            </div>
+          </section>
+
+          <!-- Rate limits -->
+          <section id="rate-limits" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Rate limits</h2>
+            <p class="mt-3 text-muted leading-relaxed">Requests are rate-limited per API key. The current default is <span class="text-white font-medium">20 requests/minute</span>. If you exceed it, the API responds with a <code class="text-accent font-mono text-sm">429 Too Many Requests</code> error — back off briefly and retry. Need a higher limit? Reach out and we'll bump your key.</p>
+          </section>
+
+          <!-- Error handling -->
+          <section id="errors" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Error handling</h2>
+            <p class="mt-3 text-muted leading-relaxed">Errors use standard HTTP status codes. The most common ones:</p>
+            <div class="card mt-5 overflow-hidden p-0">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-[#191c22] text-left text-muted">
+                    <th class="px-5 py-3 font-medium">Code</th>
+                    <th class="px-5 py-3 font-medium">Meaning</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#191c22]">
+                  <tr>
+                    <td class="px-5 py-3 font-mono text-accent">400</td>
+                    <td class="px-5 py-3 text-muted">Invalid model or malformed request body.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-5 py-3 font-mono text-accent">401</td>
+                    <td class="px-5 py-3 text-muted">Invalid or missing API key.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-5 py-3 font-mono text-accent">429</td>
+                    <td class="px-5 py-3 text-muted">Rate limit exceeded — slow down and retry.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-5 py-3 font-mono text-accent">500</td>
+                    <td class="px-5 py-3 text-muted">Upstream provider error — usually transient.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Endpoints -->
+          <section id="endpoints" class="reveal scroll-mt-24 mt-14">
+            <h2 class="text-2xl font-bold tracking-tight">Endpoints</h2>
+            <p class="mt-3 text-muted leading-relaxed">This section summarizes the key endpoints, with exact request fields and examples using <span class="text-accent">requests</span>.</p>
+
+            <!-- /v1/chat/completions -->
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold">POST /v1/chat/completions</h3>
+              <p class="mt-2 text-sm text-muted">Main endpoint for chat completions. The request body expects the following JSON fields:</p>
+              <ul class="mt-2 space-y-1 text-sm text-muted">
+                <li><strong>massage</strong>: the user prompt text (the current server API uses this exact field name).</li>
+                <li><strong>model</strong>: the model slug or special values like <code class="text-accent font-mono">openrouter/auto</code>, <code class="text-accent font-mono">openllm/auto</code>, etc.</li>
+                <li>Optional: <strong>max_tokens</strong> (clients may send additional OpenAI style parameters in the server request).</li>
+              </ul>
+
+              <div class="code-shell mt-4" id="codeChatReq">
+                <div class="code-bar">
+                  <span class="dot" style="background:#ff5f57"></span>
+                  <span class="dot" style="background:#febc2e"></span>
+                  <span class="dot" style="background:#28c840"></span>
+                  <span class="ml-3 text-xs text-muted font-mono">requests_example.py</span>
+                  <button data-copy="#codeChatReq code" class="copy-btn ml-auto inline-flex items-center gap-1.5 rounded-md border border-[#22252c] px-2.5 py-1 text-xs text-muted">
+                    <span data-copy-label>Copy</span>
+                  </button>
+                </div>
+<pre><code data-lang="python">import requests
+
+url = "https://openllm-api.com/v1/chat/completions"
+headers = {"Content-Type": "application/json", "apikey": "YOUR_API_KEY"}
+body = {
+    "massage": "Write a short introduction to artificial intelligence in English.",
+    "model": "gemini-pro"
+}
+
+resp = requests.post(url, json=body, headers=headers)
+print(resp.status_code)
+print(resp.json())</code></pre>
+              </div>
+
+              <p class="mt-3 text-sm text-muted">Response: the server returns a structure similar to OpenAI. Generated text is in <code class="text-accent font-mono">choices[0].message.content</code> and token metadata appears under <code class="text-accent font-mono">usage</code>.</p>
+            </div>
+
+            <!-- /models -->
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold">GET /models</h3>
+              <p class="mt-2 text-sm text-muted">Returns the list of supported model names and slugs. Simple GET request; no apikey required.</p>
+              <div class="code-shell mt-3" id="codeModels">
+                <pre><code data-lang="python">import requests
+resp = requests.get("https://openllm-api.com/v1/models")
+print(resp.json())</code></pre>
+              </div>
+            </div>
+
+            <!-- /model/{name} -->
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold">GET /model/{name}</h3>
+              <p class="mt-2 text-sm text-muted">Returns details for a single model: <code class="text-accent font-mono">name, slug, provider, tier, kind</code>. Replace {name} with the model slug or name.</p>
+              <div class="code-shell mt-3" id="codeModelInfo">
+                <pre><code data-lang="python">import requests
+resp = requests.get("https://openllm-api.com/v1/model/gemini-pro")
+print(resp.json())</code></pre>
+              </div>
+            </div>
+
+            <!-- /usage -->
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold">GET /usage</h3>
+              <p class="mt-2 text-sm text-muted">Shows usage data for the user associated with the API key, in tokens. The <code class="text-accent font-mono">apikey</code> header is required.</p>
+              <div class="code-shell mt-3" id="codeUsage">
+                <pre><code data-lang="python">import requests
+headers = {"apikey": "YOUR_API_KEY"}
+resp = requests.get("https://openllm-api.com/v1/usage", headers=headers)
+print(resp.json())</code></pre>
+              </div>
+            </div>
+
+            <!-- /serverinfo -->
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold">GET /serverinfo</h3>
+              <p class="mt-2 text-sm text-muted">Returns general server info: status, version, uptime, model count, and available provider count.</p>
+              <div class="code-shell mt-3" id="codeServerInfo">
+                <pre><code data-lang="python">import requests
+resp = requests.get("https://openllm-api.com/v1/serverinfo")
+print(resp.json())</code></pre>
+              </div>
+            </div>
+
+            <!-- /keys -->
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold">GET /keys</h3>
+              <p class="mt-2 text-sm text-muted">Returns the user API keys and token statistics. Optional <code class="text-accent font-mono">email</code> query parameter can filter results. Returned keys are masked.</p>
+              <div class="code-shell mt-3" id="codeKeys">
+                <pre><code data-lang="python">import requests
+headers = {"apikey": "YOUR_API_KEY"}
+resp = requests.get("https://openllm-api.com/v1/keys", headers=headers)
+print(resp.json())</code></pre>
+              </div>
+            </div>
+
+            <!-- /keys/provider -->
+            <div class="mt-6">
+              <h3 class="text-xl font-semibold">POST /keys/provider</h3>
+              <p class="mt-2 text-sm text-muted">Save your own provider specific key (for example HuggingFace or Groq). The body expects two fields: <code class="text-accent font-mono">provider</code> and <code class="text-accent font-mono">provider_key</code>. The <code class="text-accent font-mono">apikey</code> header is required.</p>
+              <div class="code-shell mt-3" id="codeProviderKey">
+                <pre><code data-lang="python">import requests
+url = "https://openllm-api.com/v1/keys/provider"
+headers = {"Content-Type": "application/json", "apikey": "YOUR_API_KEY"}
+body = {"provider": "huggingface", "provider_key": "hf_xxx..."}
+resp = requests.post(url, json=body, headers=headers)
+print(resp.json())</code></pre>
+              </div>
+              <p class="mt-2 text-sm text-muted">Retrieve provider keys with <code class="text-accent font-mono">GET /keys/provider</code>. Remove a provider key with <code class="text-accent font-mono">DELETE /keys/provider/{provider}</code>.</p>
+            </div>
+
+            <p class="mt-6 text-sm text-muted">The exact behavior and field names for these endpoints are defined by the server implementation in <a href="/server.py" class="text-accent hover:underline">server.py</a>.</p>
+          </section>
+
+          <div class="reveal card mt-16 p-8 text-center">
+            <h3 class="text-xl font-semibold">That's the whole quickstart.</h3>
+            <p class="mt-2 text-muted">Grab a key and make your first request in under a minute.</p>
+            <a href="/get-api-key.html" class="btn-accent mt-6 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm">
+              Get API Key
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="border-t border-[#191c22]">
+      <div class="mx-auto max-w-7xl px-5 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <img src="/mainapplogo.png" alt="" class="h-7 w-7 rounded-lg object-cover" aria-hidden="true" />
+          <span class="font-semibold">Open<span class="text-accent">LLM</span></span>
+          <span class="ml-3 text-sm text-muted">Open source · MIT licensed</span>
+        </div>
+        <a href="https://github.com/YOUR_USERNAME/open-llm" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm text-muted hover:text-white transition-colors">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </footer>
+
+    <script src="/assets/app.js"></script>
+    <script>
+      // Highlight the active docs section in the sidebar as you scroll.
+      const links = document.querySelectorAll(".doc-link")
+      const sections = [...links].map((l) => document.querySelector(l.getAttribute("href")))
+      const spy = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              const id = e.target.id
+              links.forEach((l) => {
+                const on = l.getAttribute("href") === "#" + id
+                l.classList.toggle("text-white", on)
+                l.classList.toggle("bg-white/[0.03]", on)
+                l.classList.toggle("text-muted", !on)
+              })
+            }
+          })
+        },
+        { rootMargin: "-20% 0px -70% 0px" }
+      )
+      sections.forEach((s) => s && spy.observe(s))
+    </script>
+  </body>
+</html>

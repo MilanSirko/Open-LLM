@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-[#07080a]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open LLM</title>
+    <meta
+      name="description"
+      content="Open LLM is a free, open-source router API that unifies Groq, Google Gemini and OpenRouter... behind a single endpoint with smart auto-routing"
+      
+    />
+    <link rel="icon" type="image/png" href="/icon.png">
+    <link rel="apple-touch-icon" href="/apple-icon.png">
+
+    <meta property="og:title" content="OpenLLM - API Portal">
+    <meta property="og:description" content="Generate and manage your OpenLLM API keys securely.">
+    <meta property="og:image" content="https://a-te-vercel-domain-neved.vercel.app/opengraph-image.png">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#07080a" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: "#07080a",
+              panel: "#111318",
+              accent: "#d4ff33",
+              muted: "#8b929c",
+            },
+            fontFamily: {
+              sans: ['"Space Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
+              mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+            },
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+
+  <body class="min-h-screen antialiased">
+    <div class="bg-canvas" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header
+      data-nav
+      class="fixed top-0 inset-x-0 z-50 transition-colors duration-300"
+    >
+      <nav class="mx-auto max-w-7xl px-5 h-16 flex items-center justify-between">
+        <a href="/index.html" class="flex items-center gap-2 group">
+          <img
+            src="/mainapplogo.png"
+            alt=""
+            class="h-8 w-8 rounded-lg object-cover transition-transform group-hover:rotate-6"
+            aria-hidden="true"
+          />
+          <span class="text-lg font-semibold tracking-tight">Open<span class="text-accent">LLM</span></span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="/index.html" class="nav-link active">Home</a>
+          <a href="/models.html" class="nav-link">Models</a>
+          <a href="/docs.html" class="nav-link">Docs</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="https://github.com/YOUR_USERNAME/open-llm"
+            target="_blank"
+            rel="noopener"
+            aria-label="Open LLM on GitHub"
+            class="hidden sm:grid place-items-center h-9 w-9 rounded-lg border border-[#22252c] text-muted hover:text-white hover:border-accent transition-colors"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          </a>
+          <a
+            href="/get-api-key.html"
+            class="btn-accent hidden sm:inline-flex items-center rounded-lg px-4 py-2 text-sm"
+            >Get API Key</a
+          >
+          <button
+            data-menu-btn
+            class="md:hidden grid place-items-center h-9 w-9 rounded-lg border border-[#22252c] text-muted"
+            aria-label="Toggle menu"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </nav>
+      <div data-mobile-menu class="hidden md:hidden border-t border-[#191c22] bg-[#0b0d11] px-5 py-4 space-y-3 text-sm">
+        <a href="/index.html" class="block text-white">Home</a>
+        <a href="/models.html" class="block text-muted">Models</a>
+        <a href="/docs.html" class="block text-muted">Docs</a>
+        <a href="/get-api-key.html" class="block text-accent font-medium">Get API Key →</a>
+      </div>
+    </header>
+
+    <main class="pt-16">
+      <!-- ================= HERO ================= -->
+      <section class="relative mx-auto max-w-7xl px-5 pt-20 pb-24 text-center">
+        <div class="reveal inline-flex items-center gap-2 rounded-full border border-[#22252c] bg-white/[0.03] px-4 py-1.5 text-xs text-muted mb-8">
+          <span class="h-1.5 w-1.5 rounded-full bg-accent animate-pulse"></span>
+          100% open source · no subscriptions
+        </div>
+
+        <h1 class="reveal text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.02] tracking-tight text-balance">
+          One Open API for
+          <br class="hidden sm:block" />
+          <span class="shimmer">Every Language Model</span>
+        </h1>
+
+        <p class="reveal mx-auto mt-7 max-w-xl text-lg text-muted leading-relaxed text-pretty">
+          Route across <span class="text-white">Groq</span>, <span class="text-white">Google Gemini</span> and
+          <span class="text-white">OpenRouter</span> from a single endpoint. Smart auto-routing picks the best model, and
+          automatic fallback keeps you online.
+        </p>
+
+        <div class="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a href="/get-api-key.html" class="btn-accent inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm">
+            Get API Key
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="/models.html" class="btn-ghost inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm">
+            Explore Models
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.09 6.26L20 11.35l-5.91 2.09L12 20l-2.09-6.56L4 11.35l5.91-2.09z"/></svg>
+          </a>
+        </div>
+
+        <!-- Stat row -->
+        <div class="reveal mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto">
+          <div>
+            <div class="stat-num text-4xl md:text-5xl font-bold"><span data-count="6">0</span></div>
+            <div class="mt-1 text-sm text-muted">Providers</div>
+          </div>
+          <div>
+            <div class="stat-num text-4xl md:text-5xl font-bold"><span data-count="100" data-suffix="+">0</span></div>
+            <div class="mt-1 text-sm text-muted">Models</div>
+          </div>
+          <div>
+            <div class="stat-num text-4xl md:text-5xl font-bold text-accent">Free</div>
+            <div class="mt-1 text-sm text-muted">&amp; Open Source</div>
+          </div>
+          <div>
+            <div class="stat-num text-4xl md:text-5xl font-bold"><span data-count="1">0</span></div>
+            <div class="mt-1 text-sm text-muted">Unified API</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PROVIDER MARQUEE ================= -->
+      <section class="mx-auto max-w-7xl px-5 pb-24">
+        <p class="reveal text-center text-xs uppercase tracking-[0.25em] text-muted mb-8">Routing across leading providers</p>
+        <div class="reveal marquee relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">
+          <div class="marquee-track gap-6 pr-6">
+            <!-- duplicated set for seamless loop -->
+            <div class="flex gap-6" id="providerSet"></div>
+            <div class="flex gap-6" id="providerSetClone"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FEATURES ================= -->
+      <section class="mx-auto max-w-7xl px-5 pb-24">
+        <div class="reveal max-w-2xl">
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-balance">Built to keep you shipping</h2>
+          <p class="mt-4 text-muted text-pretty">Everything you need to talk to any model, without vendor lock-in or downtime.</p>
+        </div>
+
+        <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <article class="card reveal p-6" data-delay="1">
+            <div class="h-11 w-11 grid place-items-center rounded-xl bg-accent/10 text-accent mb-5">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg">One Unified API</h3>
+            <p class="mt-2 text-sm text-muted leading-relaxed">A single OpenAI-compatible endpoint. Swap models by changing one string — no new SDKs.</p>
+          </article>
+
+          <article class="card reveal p-6" data-delay="2">
+            <div class="h-11 w-11 grid place-items-center rounded-xl bg-accent/10 text-accent mb-5">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg">Smart Auto-Routing</h3>
+            <p class="mt-2 text-sm text-muted leading-relaxed">A routing agent inspects each request and picks the best-fit model for speed, cost, or capability.</p>
+          </article>
+
+          <article class="card reveal p-6" data-delay="3">
+            <div class="h-11 w-11 grid place-items-center rounded-xl bg-accent/10 text-accent mb-5">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg">Automatic Fallback</h3>
+            <p class="mt-2 text-sm text-muted leading-relaxed">If a provider is down or rate-limited, requests reroute instantly to a healthy one. Zero downtime.</p>
+          </article>
+
+          <article class="card reveal p-6" data-delay="4">
+            <div class="h-11 w-11 grid place-items-center rounded-xl bg-accent/10 text-accent mb-5">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg">Free &amp; Paid Tiers</h3>
+            <p class="mt-2 text-sm text-muted leading-relaxed">Start on generous free models, then upgrade to premium tiers per request — you stay in control.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ================= CODE EXAMPLE ================= -->
+      <section class="mx-auto max-w-7xl px-5 pb-28">
+        <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div class="reveal">
+            <span class="text-xs uppercase tracking-[0.25em] text-accent">Quickstart</span>
+            <h2 class="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-balance">Drop-in compatible with the OpenAI SDK</h2>
+            <p class="mt-4 text-muted leading-relaxed text-pretty">
+              Already using OpenAI's client? Point <code class="text-accent font-mono text-sm">base_url</code> at Open LLM and
+              you're done. Every request is routed, load-balanced and given automatic fallback.
+            </p>
+            <a href="/docs.html" class="btn-ghost mt-7 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm">
+              Read the docs
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+
+          <div class="reveal" data-delay="2">
+            <div class="code-shell" id="homeCode">
+              <div class="code-bar">
+                <span class="dot" style="background:#ff5f57"></span>
+                <span class="dot" style="background:#febc2e"></span>
+                <span class="dot" style="background:#28c840"></span>
+                <span class="ml-3 text-xs text-muted font-mono">quickstart.py</span>
+                <button
+                  data-copy="#homeCode code"
+                  class="copy-btn ml-auto inline-flex items-center gap-1.5 rounded-md border border-[#22252c] px-2.5 py-1 text-xs text-muted"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span data-copy-label>Copy</span>
+                </button>
+              </div>
+<pre><code data-lang="python">from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://openllm-api.com/v1",
+    api_key="YOUR_API_KEY"
+)
+
+response = client.chat.completions.create(
+    model="openai/...",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+print(response.choices[0].message.content)</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= OPEN SOURCE ================= -->
+      <section class="mx-auto max-w-7xl px-5 pb-28">
+        <div class="reveal card relative overflow-hidden p-8 md:p-12">
+          <div class="pointer-events-none absolute -top-24 -right-16 h-56 w-56 rounded-full bg-accent/10 blur-3xl float"></div>
+          <div class="relative grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+            <div>
+              <span class="inline-flex items-center gap-2 rounded-full border border-[#22252c] bg-white/[0.03] px-3 py-1 text-xs text-muted">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+                Open Source
+              </span>
+              <h2 class="mt-5 text-3xl md:text-4xl font-bold tracking-tight text-balance">Built in the open</h2>
+              <p class="mt-4 text-muted leading-relaxed text-pretty">
+                Open LLM is <span class="text-white">fully open source</span> under the MIT license. Inspect every line of the
+                router, self-host it on your own infrastructure, or contribute back to the project. We welcome bug fixes, new
+                provider integrations, documentation improvements and feature ideas — no contribution is too small.
+              </p>
+              <div class="mt-8 flex flex-wrap items-center gap-4">
+                <a href="https://github.com/YOUR_USERNAME/open-llm" target="_blank" rel="noopener" class="btn-accent inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+                  Contribute on GitHub
+                </a>
+                <a href="https://github.com/YOUR_USERNAME/open-llm/issues/new" target="_blank" rel="noopener" class="text-sm text-muted hover:text-white transition-colors">
+                  Found a bug or have an idea? <span class="text-accent underline underline-offset-4">Open an issue →</span>
+                </a>
+              </div>
+            </div>
+
+            <ul class="grid gap-3 text-sm">
+              <li class="flex items-center gap-3 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-3">
+                <span class="grid place-items-center h-8 w-8 shrink-0 rounded-lg bg-accent/10 text-accent">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+                </span>
+                <span><span class="text-white font-medium">Inspect the code</span> — nothing is hidden behind a black box.</span>
+              </li>
+              <li class="flex items-center gap-3 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-3">
+                <span class="grid place-items-center h-8 w-8 shrink-0 rounded-lg bg-accent/10 text-accent">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                </span>
+                <span><span class="text-white font-medium">Self-host</span> — run the router on your own infrastructure.</span>
+              </li>
+              <li class="flex items-center gap-3 rounded-xl border border-[#191c22] bg-white/[0.02] px-4 py-3">
+                <span class="grid place-items-center h-8 w-8 shrink-0 rounded-lg bg-accent/10 text-accent">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </span>
+                <span><span class="text-white font-medium">Contribute</span> — add providers, fix bugs, improve docs.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= CTA ================= -->
+      <section class="mx-auto max-w-7xl px-5 pb-28">
+        <div class="reveal card relative overflow-hidden p-10 md:p-16 text-center">
+          <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-64 w-64 rounded-full bg-accent/20 blur-3xl float"></div>
+          <h2 class="relative text-3xl md:text-4xl font-bold tracking-tight text-balance">Ready to route your first request?</h2>
+          <p class="relative mt-4 text-muted max-w-md mx-auto text-pretty">Grab a free API key in seconds. No credit card, no subscription.</p>
+          <a href="/get-api-key.html" class="btn-accent relative mt-8 inline-flex items-center gap-2 rounded-xl px-7 py-3 text-sm">
+            Get your free key
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="border-t border-[#191c22]">
+      <div class="mx-auto max-w-7xl px-5 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <img src="/mainapplogo.png" alt="" class="h-7 w-7 rounded-lg object-cover" aria-hidden="true" />
+          <span class="font-semibold">Open<span class="text-accent">LLM</span></span>
+          <span class="ml-3 text-sm text-muted">Open source · MIT licensed</span>
+        </div>
+        <div class="flex items-center gap-6 text-sm text-muted">
+          <a href="/models.html" class="hover:text-white transition-colors">Models</a>
+          <a href="/docs.html" class="hover:text-white transition-colors">Docs</a>
+          <a href="https://github.com/YOUR_USERNAME/open-llm" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-white transition-colors">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+      <div class="mx-auto max-w-7xl px-5 pb-8 text-xs text-muted">© <span data-year>2026</span> Open LLM. Built by the community, for the community.</div>
+    </footer>
+
+    <script>
+      // Provider strip — shared markup, injected twice for a seamless marquee.
+      const PROVIDERS = [
+        { name: "Groq", logo: "/assets/providers/groq.png" },
+        { name: "Google Gemini", logo: "/assets/providers/google.png" },
+        { name: "OpenRouter", logo: "/assets/providers/openrouter.png" },
+        { name: "Cerebras", logo: "/assets/providers/cerebras.png" },
+        { name: "Hugging Face", logo: "/assets/providers/huggingface.png" },
+        { name: "NVIDIA", logo: "/assets/providers/nvidia.png" },
+        { name: "OpenCode", logo: "/assets/providers/opencode-removebg-preview.png" },
+      ]
+      function chip(p) {
+        return `<div class="provider flex items-center gap-3 rounded-xl border border-[#191c22] bg-white/[0.02] px-6 py-4 min-w-[220px]">
+            <img src="${p.logo}" alt="" class="h-9 w-9 shrink-0 rounded-lg object-contain" aria-hidden="true" />
+            <span class="font-medium">${p.name}</span>
+          </div>`
+      }
+      const markup = PROVIDERS.map(chip).join("")
+      document.getElementById("providerSet").innerHTML = markup
+      document.getElementById("providerSetClone").innerHTML = markup
+    </script>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-[#07080a]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Models — Open LLM</title>
+    <meta name="description" content="Browse every model available through the Open LLM router: Groq, Google Gemini and OpenRouter, across free and paid tiers." />
+    <meta name="theme-color" content="#07080a"/>
+
+    <link rel="icon" type="image/png" href="/icon.png">
+    <link rel="apple-touch-icon" href="/apple-icon.png">
+
+    <meta property="og:title" content="OpenLLM - API Portal">
+    <meta property="og:description" content="Generate and manage your OpenLLM API keys securely.">
+    <meta property="og:image" content="https://a-te-vercel-domain-neved.vercel.app/opengraph-image.png">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { bg: "#07080a", panel: "#111318", accent: "#d4ff33", muted: "#8b929c" },
+            fontFamily: {
+              sans: ['"Space Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
+              mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+            },
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+
+  <body class="min-h-screen antialiased">
+    <div class="bg-canvas" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header data-nav class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
+      <nav class="mx-auto max-w-7xl px-5 h-16 flex items-center justify-between">
+        <a href="/index.html" class="flex items-center gap-2 group">
+          <img src="/mainapplogo.png" alt="" class="h-8 w-8 rounded-lg object-cover transition-transform group-hover:rotate-6" aria-hidden="true" />
+          <span class="text-lg font-semibold tracking-tight">Open<span class="text-accent">LLM</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="/index.html" class="nav-link">Home</a>
+          <a href="/models.html" class="nav-link active">Models</a>
+          <a href="/docs.html" class="nav-link">Docs</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="https://github.com/YOUR_USERNAME/open-llm" target="_blank" rel="noopener" aria-label="Open LLM on GitHub" class="hidden sm:grid place-items-center h-9 w-9 rounded-lg border border-[#22252c] text-muted hover:text-white hover:border-accent transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          </a>
+          <a href="/get-api-key.html" class="btn-accent hidden sm:inline-flex items-center rounded-lg px-4 py-2 text-sm">Get API Key</a>
+          <button data-menu-btn class="md:hidden grid place-items-center h-9 w-9 rounded-lg border border-[#22252c] text-muted" aria-label="Toggle menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </nav>
+      <div data-mobile-menu class="hidden md:hidden border-t border-[#191c22] bg-[#0b0d11] px-5 py-4 space-y-3 text-sm">
+        <a href="/index.html" class="block text-muted">Home</a>
+        <a href="/models.html" class="block text-white">Models</a>
+        <a href="/docs.html" class="block text-muted">Docs</a>
+        <a href="/get-api-key.html" class="block text-accent font-medium">Get API Key →</a>
+      </div>
+    </header>
+
+    <main class="pt-16">
+      <section class="mx-auto max-w-7xl px-5 pt-16 pb-10">
+        <div class="reveal">
+          <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-balance">Models</h1>
+          <p class="mt-3 text-muted max-w-xl text-pretty">Every model reachable through a single endpoint. Filter by provider or tier, then copy the slug straight into your request.</p>
+        </div>
+
+        <!-- Provider filter shortcuts -->
+        <div class="reveal mt-8 flex flex-wrap gap-3" id="providerFilters"></div>
+
+        <!-- Controls -->
+        <div class="reveal mt-6 flex flex-col lg:flex-row gap-4 lg:items-center">
+          <div class="relative flex-1">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="search" type="text" placeholder="Search models by name or slug…" class="w-full rounded-xl border border-[#22252c] bg-white/[0.02] pl-11 pr-4 py-3 text-sm outline-none focus:border-accent transition-colors placeholder:text-[#5b616b]" />
+          </div>
+
+          <select id="sortSelect" class="rounded-xl border border-[#22252c] bg-[#0b0d11] px-4 py-3 text-sm outline-none focus:border-accent transition-colors">
+            <option value="default">Sort: Default</option>
+            <option value="provider">By provider</option>
+            <option value="tier-free">Free first</option>
+            <option value="tier-paid">Paid first</option>
+            <option value="name">Name A–Z</option>
+          </select>
+
+          <!-- List / Table toggle -->
+          <div class="inline-flex rounded-xl border border-[#22252c] p-1 bg-[#0b0d11]" role="tablist" aria-label="View mode">
+            <button id="viewList" class="view-toggle rounded-lg px-4 py-2 text-sm font-medium bg-accent text-bg" aria-pressed="true">List</button>
+            <button id="viewTable" class="view-toggle rounded-lg px-4 py-2 text-sm font-medium text-muted" aria-pressed="false">Table</button>
+          </div>
+        </div>
+
+        <div id="resultMeta" class="mt-5 text-sm text-muted"></div>
+      </section>
+
+      <section class="mx-auto max-w-7xl px-5 pb-28">
+        <!-- List view -->
+        <div id="listView" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3"></div>
+        <!-- Table view -->
+        <div id="tableView" class="hidden overflow-x-auto rounded-2xl border border-[#191c22]">
+          <table class="w-full text-left text-sm">
+            <thead class="text-muted border-b border-[#191c22] bg-white/[0.02]">
+              <tr>
+                <th class="px-5 py-4 font-medium">Model</th>
+                <th class="px-5 py-4 font-medium">Slug</th>
+                <th class="px-5 py-4 font-medium">Provider</th>
+                <th class="px-5 py-4 font-medium">Tier</th>
+                <th class="px-5 py-4 font-medium">Kind</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="hidden text-center py-24 text-muted">
+          <p class="text-lg">No models match your filters.</p>
+          <button id="clearFilters" class="btn-ghost mt-5 rounded-xl px-5 py-2.5 text-sm">Clear filters</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-[#191c22]">
+      <div class="mx-auto max-w-7xl px-5 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <img src="/mainapplogo.png" alt="" class="h-7 w-7 rounded-lg object-cover" aria-hidden="true" />
+          <span class="font-semibold">Open<span class="text-accent">LLM</span></span>
+          <span class="ml-3 text-sm text-muted">Open source · MIT licensed</span>
+        </div>
+        <a href="https://github.com/YOUR_USERNAME/open-llm" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm text-muted hover:text-white transition-colors">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </footer>
+
+    <script src="/assets/app.js"></script>
+    <script>
+      /* ============================================================
+         MODELS PAGE LOGIC
+         ------------------------------------------------------------
+         Model data is loaded from /models.yaml via fetch() on page
+         load. To add a new model, edit models.yaml ONLY.
+         ============================================================ */
+
+      const PROVIDER_META = {
+        groq: { label: "Groq", logo: "/assets/providers/groq.png" },
+        google: { label: "Google Gemini", logo: "/assets/providers/google.png" },
+        openrouter: { label: "OpenRouter", logo: "/assets/providers/openrouter.png" },
+        opencode_zen: { label: "OpenCode Zen", logo: "/assets/providers/opencode-removebg-preview.png" },
+        cerebras: { label: "Cerebras", logo: "/assets/providers/cerebras.png" },
+        nvidia: { label: "NVIDIA", logo: "/assets/providers/nvidia.png" },
+        huggingface: { label: "Hugging Face", logo: "/assets/providers/huggingface.png" },
+      }
+
+      const PLACEHOLDER_LOGO = "/placeholder-logo.png"
+
+      function getProviderMeta(provider) {
+        return PROVIDER_META[provider] || {
+          label: provider
+            .split(/[_-]/)
+            .filter(Boolean)
+            .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+            .join(" "),
+          logo: PLACEHOLDER_LOGO,
+        }
+      }
+
+      function providerIcon(meta, size = "h-9 w-9") {
+        const logo = meta?.logo || PLACEHOLDER_LOGO
+        const label = meta?.label || "Provider"
+        return `<img src="${logo}" alt="${label}" class="${size} shrink-0 rounded-lg object-contain" aria-hidden="true" />`
+      }
+
+      function parseYaml(raw) {
+        const lines = raw.split(/\r?\n/)
+        const docs = []
+        let current = null
+
+        for (const rawLine of lines) {
+          const line = rawLine.replace(/\t/g, "  ")
+          if (!line.trim() || line.trimStart().startsWith("#")) continue
+
+          const trimmed = line.trimStart()
+          if (trimmed.startsWith("- ")) {
+            current = {}
+            docs.push(current)
+            const rest = trimmed.slice(2).trim()
+            if (rest) {
+              parseYamlKeyValue(rest, current)
+            }
+            continue
+          }
+
+          if (current && /^\s+/.test(line)) {
+            parseYamlKeyValue(trimmed, current)
+          }
+        }
+
+        return docs
+      }
+
+      function parseYamlKeyValue(line, target) {
+        const idx = line.indexOf(":")
+        if (idx === -1) return
+        const key = line.slice(0, idx).trim()
+        let value = line.slice(idx + 1).trim()
+        if (/^["'].*["']$/.test(value) && value.length >= 2) {
+          value = value.slice(1, -1)
+        }
+        if (value === "true" || value === "false") {
+          target[key] = value === "true"
+        } else if (/^-?\d+(\.\d+)?$/.test(value)) {
+          target[key] = Number(value)
+        } else {
+          target[key] = value
+        }
+      }
+
+      const state = { all: [], view: "list", provider: "all", search: "", sort: "default" }
+
+      const els = {
+        list: document.getElementById("listView"),
+        tableWrap: document.getElementById("tableView"),
+        tableBody: document.getElementById("tableBody"),
+        empty: document.getElementById("emptyState"),
+        meta: document.getElementById("resultMeta"),
+        providerFilters: document.getElementById("providerFilters"),
+        search: document.getElementById("search"),
+        sort: document.getElementById("sortSelect"),
+        viewList: document.getElementById("viewList"),
+        viewTable: document.getElementById("viewTable"),
+        clear: document.getElementById("clearFilters"),
+      }
+
+      function providerChip(key, active) {
+        const m = key === "all" ? null : getProviderMeta(key)
+        const isActive = active
+          ? "border-accent bg-accent/10 text-white"
+          : "border-[#22252c] text-muted hover:text-white"
+        if (key === "all") {
+          return `<button data-provider="all" class="filter-chip inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors ${isActive}">All providers</button>`
+        }
+        return `<button data-provider="${key}" class="filter-chip inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors ${isActive}">
+            ${providerIcon(m, "h-5 w-5")}
+            ${m.label}
+          </button>`
+      }
+
+      function renderProviderFilters() {
+        const providerKeys = state.all.length
+          ? Array.from(new Set(["all", ...state.all.map((m) => m.provider)])).sort((a, b) => {
+              if (a === "all") return -1
+              if (b === "all") return 1
+              return getProviderMeta(a).label.localeCompare(getProviderMeta(b).label)
+            })
+          : ["all", "groq", "google", "openrouter", "opencode_zen", "cerebras", "nvidia"]
+
+        els.providerFilters.innerHTML = providerKeys.map((k) => providerChip(k, state.provider === k)).join("")
+        els.providerFilters.querySelectorAll("[data-provider]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            state.provider = btn.getAttribute("data-provider")
+            renderProviderFilters()
+            render()
+          })
+        })
+      }
+
+      function badge(tier) {
+        return tier === "free"
+          ? '<span class="badge badge-free">Free</span>'
+          : '<span class="badge badge-paid">Paid</span>'
+      }
+
+      function getFiltered() {
+        let out = state.all.slice()
+        if (state.provider !== "all") out = out.filter((m) => m.provider === state.provider)
+        if (state.search.trim()) {
+          const q = state.search.toLowerCase()
+          out = out.filter((m) => m.name.toLowerCase().includes(q) || m.slug.toLowerCase().includes(q))
+        }
+        switch (state.sort) {
+          case "provider": out.sort((a, b) => a.provider.localeCompare(b.provider)); break
+          case "name": out.sort((a, b) => a.name.localeCompare(b.name)); break
+          case "tier-free": out.sort((a, b) => (a.tier === b.tier ? 0 : a.tier === "free" ? -1 : 1)); break
+          case "tier-paid": out.sort((a, b) => (a.tier === b.tier ? 0 : a.tier === "paid" ? -1 : 1)); break
+        }
+        return out
+      }
+
+      function modelCard(m, i) {
+        const p = getProviderMeta(m.provider)
+        return `<article class="card reveal is-visible p-5" style="transition-delay:${(i % 6) * 40}ms">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                ${providerIcon(p)}
+                <div class="min-w-0">
+                  <h3 class="font-semibold truncate">${m.name}</h3>
+                  <p class="text-xs text-muted">${p.label}</p>
+                </div>
+              </div>
+              ${badge(m.tier)}
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="badge badge-kind">${m.kind}</span>
+              <code class="font-mono text-xs text-accent bg-accent/5 border border-accent/20 rounded-md px-2 py-1">${m.slug}</code>
+            </div>
+          </article>`
+      }
+
+      function tableRow(m) {
+        const p = getProviderMeta(m.provider)
+        return `<tr class="border-b border-[#141619] hover:bg-white/[0.02] transition-colors">
+            <td class="px-5 py-4 font-medium">${m.name}</td>
+            <td class="px-5 py-4"><code class="font-mono text-xs text-accent">${m.slug}</code></td>
+            <td class="px-5 py-4"><span class="inline-flex items-center gap-2">${providerIcon(p, "h-4 w-4")}${p.label}</span></td>
+            <td class="px-5 py-4">${badge(m.tier)}</td>
+            <td class="px-5 py-4"><span class="badge badge-kind">${m.kind}</span></td>
+          </tr>`
+      }
+
+      function render() {
+        const data = getFiltered()
+        els.meta.textContent = `${data.length} model${data.length === 1 ? "" : "s"}`
+
+        const isEmpty = data.length === 0
+        els.empty.classList.toggle("hidden", !isEmpty)
+
+        if (state.view === "list") {
+          els.list.classList.toggle("hidden", isEmpty)
+          els.tableWrap.classList.add("hidden")
+          els.list.innerHTML = data.map(modelCard).join("")
+        } else {
+          els.tableWrap.classList.toggle("hidden", isEmpty)
+          els.list.classList.add("hidden")
+          els.tableBody.innerHTML = data.map(tableRow).join("")
+        }
+      }
+
+      function setView(view) {
+        state.view = view
+        const active = "bg-accent text-bg"
+        const inactive = "text-muted"
+        els.viewList.className = `view-toggle rounded-lg px-4 py-2 text-sm font-medium ${view === "list" ? active : inactive}`
+        els.viewTable.className = `view-toggle rounded-lg px-4 py-2 text-sm font-medium ${view === "table" ? active : inactive}`
+        els.viewList.setAttribute("aria-pressed", view === "list")
+        els.viewTable.setAttribute("aria-pressed", view === "table")
+        render()
+      }
+
+      // Wire controls
+      els.search.addEventListener("input", (e) => { state.search = e.target.value; render() })
+      els.sort.addEventListener("change", (e) => { state.sort = e.target.value; render() })
+      els.viewList.addEventListener("click", () => setView("list"))
+      els.viewTable.addEventListener("click", () => setView("table"))
+      els.clear.addEventListener("click", () => {
+        state.search = ""; state.provider = "all"; state.sort = "default"
+        els.search.value = ""; els.sort.value = "default"
+        renderProviderFilters(); render()
+      })
+
+      // Load data from models.yaml
+      fetch("/models.yaml")
+        .then((r) => {
+          if (!r.ok) throw new Error("Failed to load models.yaml")
+          return r.text()
+        })
+        .then((raw) => {
+          state.all = parseYaml(raw)
+          renderProviderFilters()
+          render()
+        })
+        .catch((err) => {
+          console.log("[models] load error:", err.message)
+          els.meta.textContent = "Could not load models. Check models.yaml."
+        })
+
+      renderProviderFilters()
+    </script>
+  </body>
+</html>

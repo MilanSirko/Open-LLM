@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-[#07080a]">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get API Key — Open LLM</title>
+  <meta name="description"
+    content="Sign in with Google to generate a free Open LLM API key. Up to 2 keys per account." />
+  <meta name="theme-color" content="#07080a" />
+
+    <link rel="icon" type="image/png" href="/icon.png">
+    <link rel="apple-touch-icon" href="/apple-icon.png">
+
+    <meta property="og:title" content="OpenLLM - API Portal">
+    <meta property="og:description" content="Generate and manage your OpenLLM API keys securely.">
+    <meta property="og:image" content="https://a-te-vercel-domain-neved.vercel.app/opengraph-image.png">
+    <meta property="og:type" content="website">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { bg: "#07080a", panel: "#111318", accent: "#d4ff33", muted: "#8b929c" },
+          fontFamily: {
+            sans: ['"Space Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
+            mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body class="min-h-screen antialiased">
+  <div class="bg-canvas" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <header data-nav class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
+    <nav class="mx-auto max-w-7xl px-5 h-16 flex items-center justify-between">
+      <a href="/index.html" class="flex items-center gap-2 group">
+        <img src="/mainapplogo.png" alt=""
+          class="h-8 w-8 rounded-lg object-cover transition-transform group-hover:rotate-6" aria-hidden="true" />
+        <span class="text-lg font-semibold tracking-tight">Open<span class="text-accent">LLM</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="/index.html" class="nav-link">Home</a>
+        <a href="/models.html" class="nav-link">Models</a>
+        <a href="/docs.html" class="nav-link">Docs</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/YOUR_USERNAME/open-llm" target="_blank" rel="noopener"
+          aria-label="Open LLM on GitHub"
+          class="hidden sm:grid place-items-center h-9 w-9 rounded-lg border border-[#22252c] text-muted hover:text-white hover:border-accent transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z" />
+          </svg>
+        </a>
+        <a href="/get-api-key.html"
+          class="btn-accent hidden sm:inline-flex items-center rounded-lg px-4 py-2 text-sm">Get API Key</a>
+        <button data-menu-btn
+          class="md:hidden grid place-items-center h-9 w-9 rounded-lg border border-[#22252c] text-muted"
+          aria-label="Toggle menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <div data-mobile-menu class="hidden md:hidden border-t border-[#191c22] bg-[#0b0d11] px-5 py-4 space-y-3 text-sm">
+      <a href="/index.html" class="block text-muted">Home</a>
+      <a href="/models.html" class="block text-muted">Models</a>
+      <a href="/docs.html" class="block text-muted">Docs</a>
+      <a href="/get-api-key.html" class="block text-accent font-medium">Get API Key →</a>
+    </div>
+  </header>
+
+  <main class="pt-16">
+    <section class="mx-auto max-w-2xl px-5 pt-16 pb-28">
+      <div class="reveal text-center">
+        <span class="text-xs uppercase tracking-[0.25em] text-accent">API Keys</span>
+        <h1 class="mt-3 text-4xl md:text-5xl font-bold tracking-tight text-balance">Get your API key</h1>
+        <p class="mt-4 text-muted text-pretty">Sign in with Google to create a free key. Up to <span
+            class="text-white">2 keys</span> per account.</p>
+      </div>
+
+      <!-- ===== Signed-out state ===== -->
+      <div id="signedOut" class="reveal card mt-12 p-8 md:p-10 text-center">
+        <div class="mx-auto h-14 w-14 grid place-items-center rounded-2xl bg-accent/10 text-accent mb-6">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 2l-2 2m-7.6 7.6a5 5 0 1 1-7 7 5 5 0 0 1 7-7zm0 0L15 8m0 0l3 3 3-3-3-3" />
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold">Sign in to continue</h2>
+        <p class="mt-2 text-sm text-muted">We only use your email to associate and rate-limit your keys.</p>
+
+        <!-- Google renders its official button here -->
+        <div id="gsiButton" class="mt-7 flex justify-center"></div>
+
+
+      </div>
+
+      <!-- ===== Signed-in state ===== -->
+      <div id="signedIn" class="hidden">
+        <!-- account bar -->
+        <div class="reveal is-visible card mt-12 p-5 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3 min-w-0">
+            <div id="avatar"
+              class="h-10 w-10 shrink-0 rounded-full bg-accent/20 text-accent grid place-items-center font-semibold">
+            </div>
+            <div class="min-w-0">
+              <p id="userName" class="font-medium truncate"></p>
+              <p id="userEmail" class="text-sm text-muted truncate"></p>
+            </div>
+          </div>
+          <button id="signOut" class="btn-ghost rounded-lg px-4 py-2 text-sm">Sign out</button>
+        </div>
+
+        <!-- limit reached message -->
+        <div id="limitMsg"
+          class="hidden mt-6 rounded-xl border border-[#4a3a12] bg-[#241d0a] px-5 py-4 text-sm text-[#f0c04a]">
+          You've reached the maximum of 2 API keys. Revoke one to create a new key.
+        </div>
+
+        <!-- generate -->
+        <div class="reveal is-visible card mt-6 p-6 md:p-8">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <h2 class="text-lg font-semibold">Create a new key</h2>
+              <p class="mt-1 text-sm text-muted"><span id="keyCount">0</span> of 2 keys used</p>
+            </div>
+            <button id="generateBtn" class="btn-accent rounded-xl px-5 py-2.5 text-sm inline-flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              Generate key
+            </button>
+          </div>
+
+          <!-- freshly generated key -->
+          <div id="newKeyBox" class="hidden mt-6 rounded-xl border-2 border-accent/50 bg-accent/[0.04] p-5">
+            <div class="flex items-center gap-2 text-accent text-sm font-medium mb-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+              Key created
+            </div>
+            <div class="flex items-center gap-2">
+              <code id="newKeyValue"
+                class="flex-1 font-mono text-sm break-all bg-[#0b0d11] border border-[#22252c] rounded-lg px-3 py-2.5"></code>
+              <button id="copyNewKey"
+                class="copy-btn shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-[#22252c] px-3 py-2.5 text-xs text-muted">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                </svg>
+                <span data-copy-label>Copy</span>
+              </button>
+            </div>
+            <p class="mt-3 text-xs text-[#f0c04a] flex items-center gap-1.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+              </svg>
+              Save this key now — it won't be shown again.
+            </p>
+          </div>
+        </div>
+
+        <!-- existing keys -->
+        <div class="reveal is-visible mt-6">
+          <h2 class="text-lg font-semibold mb-3">Your keys</h2>
+          <div id="keyList" class="space-y-3"></div>
+          <p id="noKeys" class="text-sm text-muted">No keys yet. Generate your first one above.</p>
+        </div>
+
+        <!-- provider API keys (BYOK) -->
+        <div id="providerSection" class="reveal is-visible mt-16 pt-10 border-t border-[#191c22]">
+          <div class="mb-8">
+            <h2 class="text-lg font-semibold">Provider API Keys</h2>
+            <p class="mt-2 text-sm text-muted text-pretty">
+              Add your own provider keys to use models at cost. When enabled, your key is used instead of the shared pool.
+            </p>
+          </div>
+
+          <div id="providerNoKeys" class="hidden card p-6 text-sm text-muted">
+            Generate an Open LLM API key above to manage provider keys.
+          </div>
+
+          <div id="providerContent" class="hidden">
+            <div class="card p-5 mb-6">
+              <label for="activeKeySelect" class="block text-sm font-medium mb-2">Active Open LLM key</label>
+              <select id="activeKeySelect"
+                class="w-full rounded-xl border border-[#22252c] bg-[#0b0d11] px-4 py-3 text-sm outline-none focus:border-accent transition-colors">
+              </select>
+              <p class="mt-2 text-xs text-muted">Provider keys are linked to the selected Open LLM key.</p>
+            </div>
+
+            <div id="providerAuthPrompt" class="hidden card p-5 mb-6 border-[#4a3a12] bg-[#241d0a]/40">
+              <p class="text-sm text-[#f0c04a] mb-3">Paste your full Open LLM key once to manage provider keys for this account.</p>
+              <div class="flex gap-2">
+                <input id="providerAuthInput" type="password" autocomplete="off"
+                  placeholder="Paste your Open LLM API key"
+                  class="provider-key-input flex-1 font-mono" />
+                <button id="providerAuthBtn" class="btn-accent rounded-xl px-4 py-2.5 text-sm shrink-0">Verify</button>
+              </div>
+              <p id="providerAuthError" class="hidden mt-2 text-xs text-[#ff7a7a]"></p>
+            </div>
+
+            <div id="providerList" class="card p-6 md:p-8"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[#191c22]">
+    <div class="mx-auto max-w-7xl px-5 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-2">
+        <img src="/mainapplogo.png" alt="" class="h-7 w-7 rounded-lg object-cover" aria-hidden="true" />
+        <span class="font-semibold">Open<span class="text-accent">LLM</span></span>
+        <span class="ml-3 text-sm text-muted">Open source · MIT licensed</span>
+      </div>
+      <a href="https://github.com/YOUR_USERNAME/open-llm" target="_blank" rel="noopener"
+        class="inline-flex items-center gap-2 text-sm text-muted hover:text-white transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z" />
+        </svg>
+        GitHub
+      </a>
+    </div>
+  </footer>
+
+  <script src="/assets/app.js"></script>
+  <script>
+    /* ============================================================
+       GET API KEY — auth + key management
+       ============================================================ */
+
+    const GOOGLE_CLIENT_ID = "708362553490-6ue5n0hs3075v1o2t2g8io3bupdd4nua.apps.googleusercontent.com"
+    const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+      ? (window.location.port === "3000" ? "http://localhost:8000" : "")
+      : ""
+
+    const MAX_KEYS = 2
+    let currentUser = null // { name, email }
+    let existingKeys = []  // [{ api_key, created_at, used_tokens }]
+    let activeOpenLlmKey = null // full key for provider API auth
+    let providerKeys = {} // { providerId: key_preview }
+
+    const PROVIDERS = [
+      {
+        id: "google",
+        label: "Google API Key",
+        description: "Add your Google AI Studio key to use Gemini models at cost.",
+        link: { text: "Google AI Studio", url: "https://aistudio.google.com/apikey" },
+        placeholder: "Enter your Google API Key",
+        logo: "/assets/providers/google.png",
+      },
+      {
+        id: "groq",
+        label: "Groq API Key",
+        description: "Add your Groq key for fast inference on Llama, Mixtral, and more.",
+        link: { text: "Groq Console", url: "https://console.groq.com/keys" },
+        placeholder: "Enter your Groq API Key",
+        logo: "/assets/providers/groq.png",
+      },
+      {
+        id: "openrouter",
+        label: "OpenRouter API Key",
+        description: "Route requests through OpenRouter with your own account credits.",
+        link: { text: "OpenRouter", url: "https://openrouter.ai/keys" },
+        placeholder: "Enter your OpenRouter API Key",
+        logo: "/assets/providers/openrouter.png",
+      },
+      {
+        id: "cerebras",
+        label: "Cerebras API Key",
+        description: "Use Cerebras inference with your own API key.",
+        link: { text: "Cerebras Cloud", url: "https://cloud.cerebras.ai/" },
+        placeholder: "Enter your Cerebras API Key",
+        logo: "/assets/providers/cerebras.png",
+      },
+      {
+        id: "opencode_zen",
+        label: "OpenCode API Key",
+        description: "Connect your OpenCode Zen key for supported models.",
+        link: { text: "OpenCode", url: "https://opencode.ai/" },
+        placeholder: "Enter your OpenCode API Key",
+        logo: "/assets/providers/opencode-removebg-preview.png",
+      },
+      {
+        id: "nvidia",
+        label: "NVIDIA API Key",
+        description: "Use NVIDIA NIM models with your own integrate.api.nvidia.com key.",
+        link: { text: "NVIDIA Build", url: "https://build.nvidia.com/" },
+        placeholder: "Enter your NVIDIA API Key",
+        logo: "/assets/providers/nvidia.png",
+      },
+      {
+        id: "huggingface",
+        label: "Hugging Face API Key",
+        description: "Add your Hugging Face token for router-hosted models.",
+        link: { text: "Hugging Face", url: "https://huggingface.co/settings/tokens" },
+        placeholder: "Enter your Hugging Face API Key",
+        logo: "/assets/providers/huggingface.png",
+      },
+    ]
+
+    const el = (id) => document.getElementById(id)
+
+    /* ---------- Decode a Google JWT credential client-side ---------- */
+    function decodeJwt(token) {
+      const payload = token.split(".")[1]
+      const json = decodeURIComponent(
+        atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+          .split("")
+          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join("")
+      )
+      return JSON.parse(json)
+    }
+
+    /* ---------- Google Sign-In callback ---------- */
+    function handleCredentialResponse(response) {
+      const profile = decodeJwt(response.credential)
+      onLogin({ name: profile.name || profile.email, email: profile.email })
+    }
+    window.handleCredentialResponse = handleCredentialResponse
+
+    /* ---------- Initialise the GSI button once the library loads ---------- */
+    function initGoogle() {
+      if (!window.google || !google.accounts || !google.accounts.id) {
+        setTimeout(initGoogle, 200)
+        return
+      }
+      try {
+        google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleCredentialResponse,
+        })
+        google.accounts.id.renderButton(el("gsiButton"), {
+          theme: "filled_black",
+          size: "large",
+          shape: "pill",
+          text: "continue_with",
+        })
+      } catch (e) {
+        console.error("GSI init failed:", e.message)
+      }
+    }
+    initGoogle()
+
+    /* ---------- Local storage for full keys (needed for provider API auth) ---------- */
+    function storageKey() {
+      return `openllm_keys_${currentUser?.email || ""}`
+    }
+
+    function getStoredKeyMap() {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey()) || "{}")
+      } catch {
+        return {}
+      }
+    }
+
+    function storeFullKey(maskedKey, fullKey) {
+      if (!currentUser) return
+      const map = getStoredKeyMap()
+      map[maskedKey] = fullKey
+      localStorage.setItem(storageKey(), JSON.stringify(map))
+    }
+
+    function getFullKeyForMasked(maskedKey) {
+      return getStoredKeyMap()[maskedKey] || null
+    }
+
+    function maskKey(key) {
+      if (!key || key.length <= 10) return key
+      return `${key.slice(0, 6)}...${key.slice(-4)}`
+    }
+
+    /* ---------- Login / logout UI transitions ---------- */
+    function onLogin(user) {
+      currentUser = user
+      el("signedOut").classList.add("hidden")
+      el("signedIn").classList.remove("hidden")
+      el("userName").textContent = user.name
+      el("userEmail").textContent = user.email
+      el("avatar").textContent = (user.name || user.email).charAt(0).toUpperCase()
+      loadExistingKeys()
+    }
+
+    el("signOut").addEventListener("click", () => {
+      currentUser = null
+      existingKeys = []
+      activeOpenLlmKey = null
+      providerKeys = {}
+      if (window.google && google.accounts) google.accounts.id.disableAutoSelect()
+      el("signedIn").classList.add("hidden")
+      el("signedOut").classList.remove("hidden")
+      el("newKeyBox").classList.add("hidden")
+      el("limitMsg").classList.add("hidden")
+      el("providerContent").classList.add("hidden")
+      el("providerNoKeys").classList.add("hidden")
+    })
+
+    /* ---------- Load existing keys for the signed-in user ---------- */
+    async function loadExistingKeys() {
+      try {
+        const res = await fetch(
+          `${API_BASE}/keys?email=${encodeURIComponent(currentUser.email)}`,
+          { headers: { "apikey": "internal" } }
+        )
+        if (!res.ok) throw new Error(res.statusText)
+        const data = await res.json()
+        existingKeys = data.map((k) => ({
+          api_key: k.api_key,
+          created_at: k.created_at || "N/A",
+          used_tokens: k.used_tokens || 0,
+        }))
+      } catch (e) {
+        console.error("Failed to load keys:", e)
+        existingKeys = []
+      }
+      renderKeys()
+      updateProviderSection()
+    }
+
+    /* ---------- Generate a new key ---------- */
+    el("generateBtn").addEventListener("click", async () => {
+      if (existingKeys.length >= MAX_KEYS) {
+        el("limitMsg").classList.remove("hidden")
+        return
+      }
+
+      try {
+        const res = await fetch(
+          `${API_BASE}/generate-key?email=${encodeURIComponent(currentUser.email)}`,
+          { method: "POST" }
+        )
+        const data = await res.json()
+
+        if (data.error === "limit_reached") {
+          el("limitMsg").classList.remove("hidden")
+          return
+        }
+        if (!res.ok) throw new Error(data.detail || res.statusText)
+
+        showNewKey(data["API key"])
+        await loadExistingKeys()
+      } catch (e) {
+        console.error("Failed to generate key:", e)
+        alert("Failed to generate key: " + e.message)
+      }
+    })
+
+    function showNewKey(key) {
+      const masked = maskKey(key)
+      storeFullKey(masked, key)
+      activeOpenLlmKey = key
+      el("newKeyValue").textContent = key
+      el("newKeyBox").classList.remove("hidden")
+      el("copyNewKey").setAttribute("data-copy", "#newKeyValue")
+      if (existingKeys.length >= MAX_KEYS) el("limitMsg").classList.remove("hidden")
+      updateProviderSection()
+    }
+
+    /* ---------- Render existing key list ---------- */
+    function renderKeys() {
+      el("keyCount").textContent = existingKeys.length
+      el("noKeys").classList.toggle("hidden", existingKeys.length > 0)
+      el("generateBtn").disabled = existingKeys.length >= MAX_KEYS
+      el("generateBtn").classList.toggle("opacity-40", existingKeys.length >= MAX_KEYS)
+      el("generateBtn").classList.toggle("pointer-events-none", existingKeys.length >= MAX_KEYS)
+
+      if (existingKeys.length >= MAX_KEYS) {
+        el("limitMsg").classList.remove("hidden")
+      } else {
+        el("limitMsg").classList.add("hidden")
+      }
+
+      el("keyList").innerHTML = existingKeys
+        .map(
+          (k) => `<div class="card p-4 flex items-center justify-between gap-4">
+              <div class="min-w-0">
+                <code class="font-mono text-sm">${k.api_key}</code>
+                <p class="text-xs text-muted mt-1">Created ${k.created_at}</p>
+              </div>
+              <button onclick="revokeKey('${k.api_key}')" class="btn-ghost rounded-lg px-3 py-1.5 text-xs text-[#ff7a7a] hover:!border-[#ff7a7a]">Revoke</button>
+            </div>`
+        )
+        .join("")
+    }
+
+    /* ---------- Revoke a key ---------- */
+    window.revokeKey = async function (maskedKey) {
+      try {
+        const res = await fetch(`${API_BASE}/revokekey`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json", "apikey": "internal" },
+          body: JSON.stringify({ email: currentUser.email, apikey: maskedKey }),
+        })
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err.detail || res.statusText)
+        }
+        await loadExistingKeys()
+        el("newKeyBox").classList.add("hidden")
+      } catch (e) {
+        console.error("Failed to revoke key:", e)
+        alert("Failed to revoke key: " + e.message)
+      }
+    }
+
+    /* ============================================================
+       PROVIDER API KEYS (BYOK)
+       ============================================================ */
+
+    function updateProviderSection() {
+      if (!currentUser) return
+
+      if (existingKeys.length === 0) {
+        el("providerNoKeys").classList.remove("hidden")
+        el("providerContent").classList.add("hidden")
+        return
+      }
+
+      el("providerNoKeys").classList.add("hidden")
+      el("providerContent").classList.remove("hidden")
+
+      const select = el("activeKeySelect")
+      const prev = select.value
+      select.innerHTML = existingKeys
+        .map((k) => `<option value="${k.api_key}">${k.api_key}</option>`)
+        .join("")
+
+      const hasPrev = existingKeys.some((k) => k.api_key === prev)
+      select.value = hasPrev ? prev : existingKeys[0].api_key
+
+      resolveActiveKey()
+    }
+
+    function resolveActiveKey() {
+      const masked = el("activeKeySelect").value
+      const stored = getFullKeyForMasked(masked)
+      activeOpenLlmKey = stored
+
+      if (stored) {
+        el("providerAuthPrompt").classList.add("hidden")
+        el("providerAuthError").classList.add("hidden")
+        loadProviderKeys()
+      } else {
+        el("providerAuthPrompt").classList.remove("hidden")
+        el("providerList").innerHTML = ""
+        providerKeys = {}
+      }
+    }
+
+    el("activeKeySelect").addEventListener("change", resolveActiveKey)
+
+    el("providerAuthBtn").addEventListener("click", async () => {
+      const key = el("providerAuthInput").value.trim()
+      if (!key) return
+
+      const masked = el("activeKeySelect").value
+      if (maskKey(key) !== masked) {
+        el("providerAuthError").textContent = "This key does not match the selected Open LLM key above."
+        el("providerAuthError").classList.remove("hidden")
+        return
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/keys/provider`, {
+          headers: { apikey: key },
+        })
+        if (!res.ok) throw new Error("Invalid API key")
+
+        storeFullKey(masked, key)
+        activeOpenLlmKey = key
+        el("providerAuthInput").value = ""
+        el("providerAuthPrompt").classList.add("hidden")
+        el("providerAuthError").classList.add("hidden")
+        await loadProviderKeys()
+      } catch (e) {
+        el("providerAuthError").textContent = "Could not verify key. Check that it matches the selected key above."
+        el("providerAuthError").classList.remove("hidden")
+      }
+    })
+
+    el("providerAuthInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") el("providerAuthBtn").click()
+    })
+
+    async function loadProviderKeys() {
+      if (!activeOpenLlmKey) return
+
+      try {
+        const res = await fetch(`${API_BASE}/keys/provider`, {
+          headers: { apikey: activeOpenLlmKey },
+        })
+        if (!res.ok) throw new Error(res.statusText)
+        const data = await res.json()
+        providerKeys = {}
+        for (const item of data) {
+          providerKeys[item.provider] = item.key_preview
+        }
+      } catch (e) {
+        console.error("Failed to load provider keys:", e)
+        providerKeys = {}
+      }
+      renderProviderList()
+    }
+
+    function providerLogo(meta) {
+      if (meta.logo) {
+        return `<img src="${meta.logo}" alt="" class="h-6 w-6 rounded object-contain" onerror="this.style.display='none'" />`
+      }
+      return ""
+    }
+
+    function renderProviderList() {
+      el("providerList").innerHTML = PROVIDERS.map((p) => {
+        const saved = Boolean(providerKeys[p.id])
+        const preview = providerKeys[p.id] || ""
+        const linkHtml = p.link
+          ? `<a href="${p.link.url}" target="_blank" rel="noopener" class="text-accent hover:underline">${p.link.text}</a>`
+          : ""
+
+        return `<div class="provider-key-card" data-provider="${p.id}">
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2.5">
+                  ${providerLogo(p)}
+                  <h3 class="font-semibold">${p.label}</h3>
+                </div>
+                <p class="mt-1.5 text-sm text-muted text-pretty">${p.description}${linkHtml ? ` Get one at ${linkHtml}.` : ""}</p>
+              </div>
+              <label class="toggle-switch mt-1" title="${saved ? "Disable provider key" : "Enable provider key"}">
+                <input type="checkbox" data-toggle="${p.id}" ${saved ? "checked" : ""} />
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+            </div>
+            <div class="mt-4 ${saved ? "" : "hidden"}" data-input-wrap="${p.id}">
+              ${saved ? `<p class="text-xs text-accent mb-2">Secret saved</p>` : ""}
+              <input
+                type="password"
+                data-input="${p.id}"
+                class="provider-key-input font-mono ${saved ? "is-saved" : ""}"
+                placeholder="${saved ? "Secret saved. Enter a new key to replace it" : p.placeholder}"
+                autocomplete="off"
+              />
+              ${saved ? `<p class="mt-2 text-xs text-muted font-mono">${preview}</p>` : ""}
+            </div>
+          </div>`
+      }).join("")
+
+      el("providerList").querySelectorAll("[data-toggle]").forEach((toggle) => {
+        toggle.addEventListener("change", () => onProviderToggle(toggle))
+      })
+
+      el("providerList").querySelectorAll("[data-input]").forEach((input) => {
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") saveProviderKey(input.dataset.input, input.value.trim())
+        })
+        input.addEventListener("blur", () => {
+          const val = input.value.trim()
+          if (val) saveProviderKey(input.dataset.input, val)
+        })
+      })
+    }
+
+    async function onProviderToggle(toggle) {
+      const providerId = toggle.dataset.toggle
+      const enabled = toggle.checked
+
+      if (enabled) {
+        const wrap = el("providerList").querySelector(`[data-input-wrap="${providerId}"]`)
+        wrap?.classList.remove("hidden")
+        return
+      }
+
+      if (!providerKeys[providerId]) {
+        const wrap = el("providerList").querySelector(`[data-input-wrap="${providerId}"]`)
+        wrap?.classList.add("hidden")
+        return
+      }
+
+      if (!confirm(`Remove your ${PROVIDERS.find((p) => p.id === providerId)?.label || providerId}?`)) {
+        toggle.checked = true
+        return
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/keys/provider/${providerId}`, {
+          method: "DELETE",
+          headers: { apikey: activeOpenLlmKey },
+        })
+        if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || res.statusText)
+        delete providerKeys[providerId]
+        renderProviderList()
+      } catch (e) {
+        console.error("Failed to delete provider key:", e)
+        toggle.checked = true
+        alert("Failed to remove key: " + e.message)
+      }
+    }
+
+    async function saveProviderKey(providerId, keyValue) {
+      if (!keyValue || !activeOpenLlmKey) return
+
+      try {
+        const res = await fetch(`${API_BASE}/keys/provider`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: activeOpenLlmKey,
+          },
+          body: JSON.stringify({ provider: providerId, provider_key: keyValue }),
+        })
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok) throw new Error(data.detail || res.statusText)
+
+        await loadProviderKeys()
+      } catch (e) {
+        console.error("Failed to save provider key:", e)
+        alert("Failed to save key: " + e.message)
+      }
+    }
+  </script>
+</body>
+
+</html>
