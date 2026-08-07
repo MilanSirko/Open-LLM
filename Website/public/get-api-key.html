@@ -250,10 +250,10 @@
        GET API KEY — auth + key management
        ============================================================ */
 
-    const GOOGLE_CLIENT_ID = "708362553490-6ue5n0hs3075v1o2t2g8io3bupdd4nua.apps.googleusercontent.com"
+    const GOOGLE_CLIENT_ID = window.ENV_GOOGLE_CLIENT_ID || "708362553490-6ue5n0hs3075v1o2t2g8io3bupdd4nua.apps.googleusercontent.com";
     const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-      ? (window.location.port === "3000" ? "http://localhost:8000" : "")
-      : ""
+  ? (window.location.port === "3000" ? "http://localhost:8000" : "")
+  : "https://open-llm-2fgm.onrender.com";
 
     const MAX_KEYS = 2
     let currentUser = null // { name, email }
