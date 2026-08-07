@@ -6,7 +6,7 @@ One single, OpenAI-compatible API endpoint giving you access to 100+ free models
 
 **Features an intelligent AI router that automatically picks the best model for your prompt, full custom model support, and a constantly growing model registry. Zero code changes needed, just plug and use!**
 
-[![CI](https://img.shields.io/github/actions/workflow/status/milansirko/open-llm/ci.yml?branch=main&label=CI)](https://github.com/YOUR_USERNAME/open-llm/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/milansirko/open-llm/ci.yml?branch=main&label=CI)](https://github.com/milansirko/open-llm/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docker Image](https://img.shields.io/badge/ghcr.io-open--llm-blue?logo=docker)](https://ghcr.io/milansirko/open-llm)
