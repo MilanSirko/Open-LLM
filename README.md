@@ -10,7 +10,7 @@ One single, OpenAI-compatible API endpoint giving you access to 100+ free models
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docker Image](https://img.shields.io/badge/ghcr.io-open--llm-blue?logo=docker)](https://ghcr.io/milansirko/open-llm)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YOUR_USERNAME/open-llm)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/MilanSirko/open-llm)
 
 </div>
 
